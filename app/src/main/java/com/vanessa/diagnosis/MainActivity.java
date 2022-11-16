@@ -7,14 +7,25 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.navigation.NavigationBarView;
 import com.vanessa.diagnosis.databinding.ActivityMainBinding;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+
+import java.util.ArrayList;
+import java.util.concurrent.locks.ReadWriteLock;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -29,27 +40,24 @@ public class MainActivity extends AppCompatActivity {
         replaceFragment(new ExploreFragment());
 
         bottomNavigationView.setOnItemSelectedListener(item -> {
-            switch (item.getItemId()){
+            switch (item.getItemId()) {
                 case R.id.explore:
                     replaceFragment(new ExploreFragment());
                     break;
 
                 case R.id.book:
                     showBottomSheetDialog();
-//                    replaceFragment(new BookFragment());
-//                    Toast.makeText(this, "Book Appointment!", Toast.LENGTH_SHORT).show();
                     break;
 
                 case R.id.history:
                     replaceFragment(new HistoryFragment());
                     break;
             }
-
-
             return true;
         });
 
     }
+
 
     private void showBottomSheetDialog() {
 

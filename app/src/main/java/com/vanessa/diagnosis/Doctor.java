@@ -1,26 +1,71 @@
 package com.vanessa.diagnosis;
 
+import java.util.ArrayList;
+
 public class Doctor {
+//            "id": 1,
+//                    "firstname": "Kale",
+//                    "lastname": "Pollich",
+//                    "mobile": "+1 (657) 418-3500",
+//                    "role": "doctor",
+//                    "email": "qmcclure@example.com",
+//                    "email_verified_at": "2022-10-15T12:26:53.000000Z",
+//                    "created_at": "2022-10-15T12:26:53.000000Z",
+//                    "updated_at": "2022-10-15T12:26:53.000000Z",
+//                    "doctor_data": {
+//        "id": 1,
+//                "user_id": 1,
+//                "license": "lisense.jpg",
+//                "id_number": "366273920",
+//                "location": "Nairobi,Kenya",
+//                "specialty": "Pedatrecian",
+//                "description": "blahblah",
+//                "created_at": "2022-10-16T06:16:28.000000Z",
+//                "updated_at": "2022-10-16T06:16:28.000000Z"
+//    }
+    private int id;
     private String firstName;
     private String lastName;
+    private String mobile;
+    private String role;
+    private String license;
     private String email;
     private String specialty;
-    private String licenseUrl;
+    private String description;
+    private String joined;
+    private String location;
 
-    public Doctor(String firstName, String lastName, String email, String specialty, String licenseUrl) {
+    public Doctor(int id, String firstName, String lastName, String mobile, String role, String license, String email, String specialty, String description, String joined,  String location) {
+        this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
+        this.mobile = mobile;
+        this.role = role;
+        this.license = license;
         this.email = email;
         this.specialty = specialty;
-        this.licenseUrl = licenseUrl;
+        this.description = description;
+        this.joined = joined;
+        this.location = location;
     }
 
-    public String getLicenseUrl() {
-        return licenseUrl;
+    public Doctor() {
     }
 
-    public void setLicenseUrl(String licenseUrl) {
-        this.licenseUrl = licenseUrl;
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getFirstName() {
@@ -39,6 +84,30 @@ public class Doctor {
         this.lastName = lastName;
     }
 
+    public String getMobile() {
+        return mobile;
+    }
+
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    public String getLicense() {
+        return license;
+    }
+
+    public void setLicense(String license) {
+        this.license = license;
+    }
+
     public String getEmail() {
         return email;
     }
@@ -55,14 +124,35 @@ public class Doctor {
         this.specialty = specialty;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getJoined() {
+        return joined;
+    }
+
+    public void setJoined(String joined) {
+        this.joined = joined;
+    }
+
     @Override
     public String toString() {
         return "Doctor{" +
-                "firstName='" + firstName + '\'' +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
+                ", mobile='" + mobile + '\'' +
+                ", role='" + role + '\'' +
+                ", license='" + license + '\'' +
                 ", email='" + email + '\'' +
-                ", licenseUrl'" + licenseUrl + '\'' +
                 ", specialty='" + specialty + '\'' +
+                ", description='" + description + '\'' +
+                ", joined='" + joined + '\'' +
                 '}';
     }
 }

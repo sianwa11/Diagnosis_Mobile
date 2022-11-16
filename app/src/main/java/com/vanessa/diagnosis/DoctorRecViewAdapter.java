@@ -38,7 +38,9 @@ public class DoctorRecViewAdapter extends RecyclerView.Adapter<DoctorRecViewAdap
         holder.txtEmail.setText(doctors.get(position).getEmail());
         holder.txtSpecialty.setText(doctors.get(position).getSpecialty());
 
-        Glide.with(context).asBitmap().load(doctors.get(position).getLicenseUrl()).into(holder.image);
+        Glide.with(context).asBitmap().load(doctors.get(position).getLicense())
+                .placeholder(R.drawable.ic_launcher_foreground)
+                .into(holder.image);
     }
 
     public void setDoctors(ArrayList<Doctor> doctors) {

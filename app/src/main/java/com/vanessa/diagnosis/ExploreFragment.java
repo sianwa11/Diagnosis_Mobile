@@ -7,9 +7,11 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -69,21 +71,23 @@ public class ExploreFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_explore, container, false);
 
         doctorRecView = view.findViewById(R.id.doctorsRecView);
-        ArrayList<Doctor> doctors = new ArrayList<>();
-        doctors.add(new Doctor("Benjamin", "Pavard", "pavard@gmail.io", "gynecology", "https://cdn-icons-png.flaticon.com/512/6541/6541016.png"));
-        doctors.add(new Doctor("Maddy", "Johnson", "maddy@gmail.io", "neurology", "https://cdn-icons-png.flaticon.com/512/6541/6541016.png"));
-        doctors.add(new Doctor("Ben", "Stewart", "ben@gmail.io", "radiology", "https://cdn-icons-png.flaticon.com/512/6541/6541016.png"));
-        doctors.add(new Doctor("Martha", "Mbugua", "martha@gmail.io", "Psychiatrist", "https://cdn-icons-png.flaticon.com/512/6541/6541016.png"));
-        doctors.add(new Doctor("Melanie", "Martinez", "melanie@gmail.io", "Obstetrician", "https://cdn-icons-png.flaticon.com/512/6541/6541016.png"));
-        doctors.add(new Doctor("Miguna", "Miguna", "miguna@gmail.io", "nutrition", "https://cdn-icons-png.flaticon.com/512/6541/6541016.png"));
-        doctors.add(new Doctor("John", "Ndegwa", "john@gmail.io", "Neurologist", "https://cdn-icons-png.flaticon.com/512/6541/6541016.png"));
-        doctors.add(new Doctor("Amit", "Singh", "amit@gmail.io", "gynecology", "https://cdn-icons-png.flaticon.com/512/6541/6541016.png"));
 
-        DoctorRecViewAdapter adapter = new DoctorRecViewAdapter(view.getContext());
-        adapter.setDoctors(doctors);
-        doctorRecView.setAdapter(adapter);
-        doctorRecView.setLayoutManager(new LinearLayoutManager(view.getContext()));
+        DoctorDataService doctorDataService = new DoctorDataService(view.getContext());
+        doctorDataService.getAllDoctors(new DoctorDataService.getAllDoctorsResponse() {
+            @Override
+            public void onError(String message) {
+                Toast.makeText(view.getContext(), "Something went wrong", Toast.LENGTH_SHORT).show();
+            }
 
+            @Override
+            public void onResponse(ArrayList<Doctor> doctors) {
+                DoctorRecViewAdapter adapter = new DoctorRecViewAdapter(view.getContext());
+                adapter.setDoctors(doctors);
+                doctorRecView.setAdapter(adapter);
+                doctorRecView.setLayoutManager(new LinearLayoutManager(view.getContext()));
+            }
+        });
         return view;
     }
+
 }
