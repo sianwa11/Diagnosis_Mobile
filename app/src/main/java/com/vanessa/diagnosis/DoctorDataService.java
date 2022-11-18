@@ -16,7 +16,7 @@ import java.util.ArrayList;
 
 public class DoctorDataService {
 
-    public static final String QUERY_FOR_DOCTORS = "https://7a1e-196-202-173-158.eu.ngrok.io/api/doctor";
+    public static final String QUERY_FOR_DOCTORS = "https://f746-197-231-178-123.in.ngrok.io/api/doctor";
 
     public Context context;
 
@@ -32,9 +32,7 @@ public class DoctorDataService {
 
     public void getAllDoctors(getAllDoctorsResponse getAllDoctorsResponse) {
         ArrayList<Doctor> doctors = new ArrayList<>();
-
         // Get array of doctors
-
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, QUERY_FOR_DOCTORS, null,
                 response -> {
                     try {
@@ -59,6 +57,7 @@ public class DoctorDataService {
                             }
 
                             doctors.add(doctor);
+                            DoctorUtils.getInstance().addToAllDoctors(doctor);
                         }
 
                         getAllDoctorsResponse.onResponse(doctors);
@@ -69,7 +68,5 @@ public class DoctorDataService {
                 });
 
         MySingleton.getInstance(context).addToRequestQueue(request);
-
-        // Get each item in array and populate Doctor Model
     }
 }

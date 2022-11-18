@@ -3,26 +3,7 @@ package com.vanessa.diagnosis;
 import java.util.ArrayList;
 
 public class Doctor {
-//            "id": 1,
-//                    "firstname": "Kale",
-//                    "lastname": "Pollich",
-//                    "mobile": "+1 (657) 418-3500",
-//                    "role": "doctor",
-//                    "email": "qmcclure@example.com",
-//                    "email_verified_at": "2022-10-15T12:26:53.000000Z",
-//                    "created_at": "2022-10-15T12:26:53.000000Z",
-//                    "updated_at": "2022-10-15T12:26:53.000000Z",
-//                    "doctor_data": {
-//        "id": 1,
-//                "user_id": 1,
-//                "license": "lisense.jpg",
-//                "id_number": "366273920",
-//                "location": "Nairobi,Kenya",
-//                "specialty": "Pedatrecian",
-//                "description": "blahblah",
-//                "created_at": "2022-10-16T06:16:28.000000Z",
-//                "updated_at": "2022-10-16T06:16:28.000000Z"
-//    }
+
     private int id;
     private String firstName;
     private String lastName;
@@ -35,7 +16,7 @@ public class Doctor {
     private String joined;
     private String location;
 
-    public Doctor(int id, String firstName, String lastName, String mobile, String role, String license, String email, String specialty, String description, String joined,  String location) {
+    public Doctor(int id, String firstName, String lastName, String mobile, String role, String license, String email, String specialty, String description, String joined, String location) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;

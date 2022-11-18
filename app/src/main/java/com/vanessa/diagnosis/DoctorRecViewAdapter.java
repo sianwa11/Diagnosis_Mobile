@@ -1,6 +1,8 @@
 package com.vanessa.diagnosis;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -32,7 +35,7 @@ public class DoctorRecViewAdapter extends RecyclerView.Adapter<DoctorRecViewAdap
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, @SuppressLint("RecyclerView") int position) {
         holder.txtFirstName.setText(doctors.get(position).getFirstName());
         holder.txtLastName.setText(doctors.get(position).getLastName());
         holder.txtEmail.setText(doctors.get(position).getEmail());
@@ -41,6 +44,15 @@ public class DoctorRecViewAdapter extends RecyclerView.Adapter<DoctorRecViewAdap
         Glide.with(context).asBitmap().load(doctors.get(position).getLicense())
                 .placeholder(R.drawable.ic_launcher_foreground)
                 .into(holder.image);
+
+        holder.parent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, DoctorActivity.class);
+                intent.putExtra(DoctorActivity.DOCTOR_ID, doctors.get(position).getId());
+                context.startActivity(intent);
+            }
+        });
     }
 
     public void setDoctors(ArrayList<Doctor> doctors) {
@@ -55,12 +67,14 @@ public class DoctorRecViewAdapter extends RecyclerView.Adapter<DoctorRecViewAdap
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
+        private CardView parent;
         private TextView txtFirstName, txtLastName, txtEmail, txtSpecialty;
         private ImageView image;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
+            parent = itemView.findViewById(R.id.doctorListParent);
             txtFirstName = itemView.findViewById(R.id.txtFirstName);
             txtLastName = itemView.findViewById(R.id.txtLastName);
             txtEmail = itemView.findViewById(R.id.txtEmail);
