@@ -23,7 +23,7 @@ import java.util.Map;
 
 public class AppointmentDataService {
 
-    public static final String MAKE_APPOINTMENT_URI = "https://f746-197-231-178-123.in.ngrok.io/api/appointment";
+    public static final String MAKE_APPOINTMENT_URI = "https://3fd7-197-231-178-123.in.ngrok.io/api/appointment";
     private final Context context;
     private int mStatusCode = 0;
 
@@ -38,7 +38,7 @@ public class AppointmentDataService {
     }
 
     public void makeAppointment(String title, String description, String date, Integer doctor_id, appointmentResponse appointmentResponse) {
-        StringRequest request = new StringRequest(Request.Method.POST, "https://f746-197-231-178-123.in.ngrok.io/api/appointment", response -> {
+        StringRequest request = new StringRequest(Request.Method.POST, MAKE_APPOINTMENT_URI, response -> {
             try {
                 JSONObject jsonObject = new JSONObject(response);
                 Toast.makeText(context, "Success: " + jsonObject, Toast.LENGTH_LONG).show();

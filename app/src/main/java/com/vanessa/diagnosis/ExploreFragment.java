@@ -11,6 +11,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -23,6 +25,8 @@ import java.util.ArrayList;
 public class ExploreFragment extends Fragment {
 
     private RecyclerView doctorRecView;
+    private ProgressBar loadingSpinner;
+    private TextView errorText;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -71,20 +75,37 @@ public class ExploreFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_explore, container, false);
 
         doctorRecView = view.findViewById(R.id.doctorsRecView);
+        loadingSpinner = view.findViewById(R.id.loadDoctors);
+        errorText = view.findViewById(R.id.txtErrorMessage);
+
+        loadingSpinner.setVisibility(View.VISIBLE);
 
         DoctorDataService doctorDataService = new DoctorDataService(view.getContext());
         doctorDataService.getAllDoctors(new DoctorDataService.getAllDoctorsResponse() {
+
             @Override
             public void onError(String message) {
-                Toast.makeText(view.getContext(), "Something went wrong", Toast.LENGTH_SHORT).show();
+                loadingSpinner.setVisibility(View.GONE);
+                errorText.setVisibility(View.VISIBLE);
             }
 
             @Override
-            public void onResponse(ArrayList<Doctor> doctors) {
-                DoctorRecViewAdapter adapter = new DoctorRecViewAdapter(view.getContext());
-                adapter.setDoctors(doctors);
-                doctorRecView.setAdapter(adapter);
-                doctorRecView.setLayoutManager(new LinearLayoutManager(view.getContext()));
+            public void onResponse(ArrayList<Doctor> doctors, String statusCode) {
+
+                switch (statusCode) {
+                    case "200":
+                        loadingSpinner.setVisibility(View.GONE);
+                        DoctorRecViewAdapter adapter = new DoctorRecViewAdapter(view.getContext());
+                        adapter.setDoctors(doctors);
+                        doctorRecView.setAdapter(adapter);
+                        doctorRecView.setLayoutManager(new LinearLayoutManager(view.getContext()));
+                        break;
+
+                    default:
+                        loadingSpinner.setVisibility(View.GONE);
+                        errorText.setVisibility(View.VISIBLE);
+
+                }
             }
         });
         return view;

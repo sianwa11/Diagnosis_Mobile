@@ -3,12 +3,15 @@ package com.vanessa.diagnosis;
 import android.content.Context;
 import android.util.Log;
 
+import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 //import com.android.volley.Response;
 //import com.android.volley.VolleyError;
+import com.android.volley.Response;
 import com.android.volley.toolbox.JsonArrayRequest;
 
 //import org.json.JSONArray;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -16,8 +19,8 @@ import java.util.ArrayList;
 
 public class DoctorDataService {
 
-    public static final String QUERY_FOR_DOCTORS = "https://f746-197-231-178-123.in.ngrok.io/api/doctor";
-
+    public static final String QUERY_FOR_DOCTORS = "https://3fd7-197-231-178-123.in.ngrok.io/api/doctor";
+    private int mStatusCode = 0;
     public Context context;
 
     public DoctorDataService(Context context) {
@@ -27,7 +30,7 @@ public class DoctorDataService {
     public interface getAllDoctorsResponse {
         void onError(String message);
 
-        void onResponse(ArrayList<Doctor> doctors);
+        void onResponse(ArrayList<Doctor> doctors, String statusCode);
     }
 
     public void getAllDoctors(getAllDoctorsResponse getAllDoctorsResponse) {
@@ -60,12 +63,18 @@ public class DoctorDataService {
                             DoctorUtils.getInstance().addToAllDoctors(doctor);
                         }
 
-                        getAllDoctorsResponse.onResponse(doctors);
+                        getAllDoctorsResponse.onResponse(doctors, String.valueOf(mStatusCode));
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
                 }, error -> {
-                });
+                }){
+            @Override
+            protected Response<JSONArray> parseNetworkResponse(NetworkResponse response) {
+                mStatusCode = response.statusCode;
+                return super.parseNetworkResponse(response);
+            }
+        };
 
         MySingleton.getInstance(context).addToRequestQueue(request);
     }

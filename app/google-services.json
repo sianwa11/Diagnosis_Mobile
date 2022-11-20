@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "162747536689",
+    "project_id": "diagnosis-d670d",
+    "storage_bucket": "diagnosis-d670d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:162747536689:android:f7374ee2e4801519114c10",
+        "android_client_info": {
+          "package_name": "com.vanessa.diagnosis"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "162747536689-7v33l476lj2njsm45pch2bb5i4fauoa1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDDis4hW0GCWjOLI34A8Ln7Fv9ybErcmlA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "162747536689-7v33l476lj2njsm45pch2bb5i4fauoa1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

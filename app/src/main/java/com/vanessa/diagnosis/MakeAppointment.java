@@ -1,6 +1,8 @@
 package com.vanessa.diagnosis;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -98,10 +100,12 @@ public class MakeAppointment extends AppCompatActivity {
 
                 switch (statusCode) {
                     case "201":
-                        // TODO: Redirect to appointment history page
-                        // TODO: Add notification if possible
-                        // TODO: Add ProgressBar to explore fragment recycler view
-                        finish();
+                        Intent intent = new Intent(MakeAppointment.this, AppointmentCreated.class);
+                        startActivity(intent);
+                        break;
+
+                    default:
+                        break;
                 }
             }
         });
