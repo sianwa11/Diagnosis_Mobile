@@ -4,16 +4,15 @@ import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
 
-import androidx.annotation.Nullable;
-
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.Response;
-import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.StringRequest;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -21,29 +20,43 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class AppointmentDataService {
+public class LoginDataService {
 
-    public static final String MAKE_APPOINTMENT_URI = MainActivity.API_URI+ "/api/appointment";
+    public static final String LOGIN_URI = MainActivity.API_URI + "/api/login";
     private final Context context;
     private int mStatusCode = 0;
 
-    public AppointmentDataService(Context context) {
+    public LoginDataService(Context context) {
         this.context = context;
     }
 
-    public interface appointmentResponse {
+    public interface logInResponse {
         void onError(String message);
 
-        void onResponse(String statusCode);
+        void onResponse(ArrayList<User> user, String statusCode);
     }
 
-    public void makeAppointment(String title, String description, String date, Integer doctor_id, appointmentResponse appointmentResponse) {
-        StringRequest request = new StringRequest(Request.Method.POST, MAKE_APPOINTMENT_URI, response -> {
+    public void loginUser(String mobile, String password, logInResponse logInResponse) {
+        ArrayList<User> user = new ArrayList<>();
+        StringRequest request = new StringRequest(Request.Method.POST, LOGIN_URI, response -> {
             try {
+
                 JSONObject jsonObject = new JSONObject(response);
+                User loggedInUser = new User();
                 Toast.makeText(context, "Success: " + jsonObject, Toast.LENGTH_LONG).show();
-                Log.d("Response", jsonObject.toString());
-                appointmentResponse.onResponse(String.valueOf(mStatusCode));
+                Log.d("Response", String.valueOf(jsonObject.getString("token")));
+
+                loggedInUser.setToken(jsonObject.getString("token"));
+                loggedInUser.setId(jsonObject.getJSONObject("user").getInt("id"));
+                loggedInUser.setEmail(jsonObject.getJSONObject("user").getString("email"));
+                loggedInUser.setFirstname(jsonObject.getJSONObject("user").getString("firstname"));
+                loggedInUser.setLastname(jsonObject.getJSONObject("user").getString("lastname"));
+                loggedInUser.setMobile(jsonObject.getJSONObject("user").getString("mobile"));
+                loggedInUser.setRole(jsonObject.getJSONObject("user").getString("role"));
+
+                user.add(loggedInUser);
+                logInResponse.onResponse(user, String.valueOf(mStatusCode));
+
             } catch (Exception error) {
                 error.printStackTrace();
             }
@@ -53,10 +66,8 @@ public class AppointmentDataService {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
-                params.put("to_userid", String.valueOf(doctor_id));
-                params.put("name", title);
-                params.put("description", description);
-                params.put("appointment_date", date);
+                params.put("mobile", mobile);
+                params.put("password", password);
                 return params;
             }
             //This is for Headers If You Needed
@@ -64,7 +75,6 @@ public class AppointmentDataService {
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> headers = new HashMap<>();
                 headers.put("Accept", "application/json");
-                headers.put("Authorization", "Bearer " + UserUtils.getInstance().getToken());
                 return headers;
             }
 
@@ -80,4 +90,5 @@ public class AppointmentDataService {
 
         MySingleton.getInstance(context).addToRequestQueue(request);
     }
+
 }

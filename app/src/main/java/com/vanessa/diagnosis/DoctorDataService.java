@@ -19,7 +19,7 @@ import java.util.ArrayList;
 
 public class DoctorDataService {
 
-    public static final String QUERY_FOR_DOCTORS = "https://3fd7-197-231-178-123.in.ngrok.io/api/doctor";
+    public static final String QUERY_FOR_DOCTORS = MainActivity.API_URI + "/api/doctor";
     private int mStatusCode = 0;
     public Context context;
 
